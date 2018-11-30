@@ -1,2 +1,9 @@
 #!/bin/sh
-#labadum
+read -p "Jmeno programu? " nazev
+read -p "Cislo ukolu " cisloUkolu
+wget -O /tmp/Downloads/hw.zip "https://cw.fel.cvut.cz/wiki/_media/courses/b0b99prpa/hw/b0b99prpa-hw$cisloUkolu.zip"
+downloads='/tmp/Downloads'
+unzip "$downloads/hw.zip"
+cp -r $downloads/"data" `pwd`
+
+clang $nazev && valgrind --log-file=log.log ./a.out < input.txt > out.txt
