@@ -1,0 +1,15 @@
+#!/bin/sh
+#shopt -s nullglob
+
+FilesIn=(*.in)
+FilesOut=(*.out)
+NumFilesOut=${#FilesOut[@]}
+NumFilesIn=${#FilesIn[@]}
+
+#echo labadum ${FilesIn[0]}
+
+if diff pub01.in pub.in >/dev/null ; then
+  echo Same
+else
+  echo Different
+fi

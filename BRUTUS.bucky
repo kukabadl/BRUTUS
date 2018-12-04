@@ -1,9 +1,23 @@
 #!/bin/sh
-read -p "Jmeno programu? " nazev
-read -p "Cislo ukolu " cisloUkolu
-wget -O /tmp/Downloads/hw.zip "https://cw.fel.cvut.cz/wiki/_media/courses/b0b99prpa/hw/b0b99prpa-hw$cisloUkolu.zip"
 downloads='/tmp/Downloads'
-unzip "$downloads/hw.zip"
-cp -r $downloads/"data" `pwd`
 
-clang $nazev && valgrind --log-file=log.log ./a.out < input.txt > out.txt
+ls -lq *.c
+	if [ ! -d "BRUTUS" ]; then
+    mkdir BRUTUS
+  fi
+read -p "Jmeno programu? " nazev &&
+read -p "Cislo ukolu " cisloUkolu &&
+
+wget -q -O /tmp/Downloads/hw.zip "https://cw.fel.cvut.cz/wiki/_media/courses/b0b99prpa/hw/b0b99prpa-hw$cisloUkolu.zip" &&
+read -p "Cislo ukolu "
+zadani="./BRUTUS/hw$cisloUkolu-Zadani"
+mkdir $zadani
+unzip -f "$downloads/hw.zip" -d $zadani &&
+
+cd ./BRUTUS/hw$cisloUkolu-Zadani/ &&
+folder=(*) &&
+echo "folder: "$folder
+#mv -f ./$folder .. #./BRUTUS/hw$cisloUkolu-Zadani
+#cp -r $downloads/"data" `pwd`
+
+#clang $nazev && valgrind --log-file=log.log ./a.out < input.txt > out.txt
