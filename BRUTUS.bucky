@@ -1,23 +1,48 @@
 #!/bin/sh
-downloads='/tmp/Downloads'
-
-ls -lq *.c
+downloads='/tmp/Downloads'		#Your downloads directory
+currentFolder=`pwd`
+ls *.c
 	if [ ! -d "BRUTUS" ]; then
     mkdir BRUTUS
   fi
-read -p "Jmeno programu? " nazev &&
+read -e -p "Jmeno programu? " nazev &&
 read -p "Cislo ukolu " cisloUkolu &&
+wget -q -O "/tmp/Downloads/hw.zip" "https://cw.fel.cvut.cz/wiki/_media/courses/b0b99prpa/hw/b0b99prpa-hw$cisloUkolu.zip"
+zadani="./BRUTUS/hw$cisloUkolu-Zadani" &&
+if [ ! -d "$zadani" ]; then
+	mkdir $zadani
+	mkdir $zadani/trash
+fi
+mkdir $zadani/trash
+cd "$zadani"
+unzip -u "$downloads/hw.zip" -d "./trash" &&
 
-wget -q -O /tmp/Downloads/hw.zip "https://cw.fel.cvut.cz/wiki/_media/courses/b0b99prpa/hw/b0b99prpa-hw$cisloUkolu.zip" &&
-read -p "Cislo ukolu "
-zadani="./BRUTUS/hw$cisloUkolu-Zadani"
-mkdir $zadani
-unzip -f "$downloads/hw.zip" -d $zadani &&
+NumFilesOut=${#FilesOut[@]}
+NumFilesIn=${#FilesIn[@]}
+NumFilesErr=${#FilesErr[@]}
 
-cd ./BRUTUS/hw$cisloUkolu-Zadani/ &&
+if [ ! -d "./in" ]; then
+	mkdir "./in" && counter=0 && inFolder=`find . -name '*.in' -printf '%h\n' | head -n 1`
+	FilesIn=($inFolder/*.in)
+fi
+
+if [ ! -d "./out" ]; then
+	mkdir "./out" && outFolder=`find . -name '*.out' -printf '%h\n' | head -n 1`
+	FilesOut=($outFolder/*.out)
+
+fi
+
+if [ ! -d "./err" ]; then
+	mkdir "./err" && errFolder=`find . -name '*.err' -printf '%h\n' | head -n 1`
+	FilesErr=($errFolder/*.err)
+
+fi
+
+
+echo "pwd: "`pwd`
 folder=(*) &&
-echo "folder: "$folder
 #mv -f ./$folder .. #./BRUTUS/hw$cisloUkolu-Zadani
 #cp -r $downloads/"data" `pwd`
 
 #clang $nazev && valgrind --log-file=log.log ./a.out < input.txt > out.txt
+exit 0
