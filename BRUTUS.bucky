@@ -24,21 +24,30 @@ NumFilesErr=${#FilesErr[@]}
 if [ ! -d "./in" ]; then
 	mkdir "./in" && counter=0 && inFolder=`find . -name '*.in' -printf '%h\n' | head -n 1`
 	FilesIn=($inFolder/*.in)
+	NumFilesIn=${#FilesIn[@]}
 fi
 
 if [ ! -d "./out" ]; then
 	mkdir "./out" && outFolder=`find . -name '*.out' -printf '%h\n' | head -n 1`
 	FilesOut=($outFolder/*.out)
-
+	NumFilesOut=${#FilesOut[@]}
 fi
 
 if [ ! -d "./err" ]; then
 	mkdir "./err" && errFolder=`find . -name '*.err' -printf '%h\n' | head -n 1`
 	FilesErr=($errFolder/*.err)
-
+	NumFilesErr=${#FilesErr[@]}
 fi
 
-
+COUNTER=0
+if [ $NumFilesIn -eq $NumFilesOut ] ; then
+   while [  $COUNTER -l $NumFilesIn ]; do
+       echo The counter is $COUNTER
+       let COUNTER=COUNTER+1
+   done
+else
+	echo "invalid number of inputs or outputs"
+fi
 echo "pwd: "`pwd`
 folder=(*) &&
 #mv -f ./$folder .. #./BRUTUS/hw$cisloUkolu-Zadani
